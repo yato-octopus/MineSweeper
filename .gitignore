@@ -1,0 +1,13 @@
+.vs/
+Debug/
+*.db
+*.opendb
+*.html
+*.vcxproj
+*.filters
+*.rc
+*.ico
+MineSweeper/Debug/
+MineSweeper/Engine/
+MineSweeper/Example/
+

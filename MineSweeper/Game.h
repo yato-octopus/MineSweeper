@@ -13,8 +13,10 @@ public:
 	void update();
 	void draw();
 	void input();
-	void check();
+	void check(int,int);
 	void map_draw();
+	void game_clear();
+	void game_over();
 
 private:
 	State state;
@@ -22,5 +24,6 @@ private:
 	int Line_x;
 	int rect_y;
 	int rect_x;
+	int col[8][8];
 };
 

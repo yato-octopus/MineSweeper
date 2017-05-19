@@ -44,22 +44,8 @@ void Game::draw() {
 		break;
 	}
 }
-void Game::game_clear() {
-
-}
-void Game::game_over(){
-
-}
-void Game::input() {
-
-}
-void Game::check(int n, int j){
-	//ループで表示した正方形のあたり判定
-	const Rect rect(8 + rect_x, 80 + rect_y, 42, 42);
-	const bool r = rect.leftPressed;
-	if (r == 1) {
-		col[n][j] = 1;
-	}
+void Game::check(){
+	col[0][0] = 1;
 }
 void Game::map_draw() {
 	static Font fontS(30);
@@ -73,25 +59,28 @@ void Game::map_draw() {
 	//ゲーム画面
 	for (int n = 0; n < 8;n++) {
 		for (int j = 0; j < 8; j++) {
-			//Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::Blue);
-			check(n,j);
-			switch (col[n][j]) {
-			case 0:
-				Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::Blue);
-				break;
-			case 1:
-				Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::Red);
-				break;
-			case 2:
-				break;
-			}
-			/*if (col[n][j] == 1) {
-				Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::Red);
-			}*/
+			Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::Blue);
 			rect_x += 50;
 		}
 		rect_x = 0;
 		rect_y += 50;
+	}
+	rect_x = 0;
+	rect_y = 0;
+	for (int n = 0; n < 8; n++) {
+		for (int j = 0; j < 8; j++) {
+			rect_x += 50;
+			check();
+			if (1) {
+				Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::Red);
+			}
+		}
+		rect_x = 0;
+		rect_y += 50;
+	}
+	check();
+	if (1) {
+		Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::Red);
 	}
 	for (int i = 1; i <= 9; i++) {
 		Line(0, Line_y, 520, Line_y).draw(8, Palette::Skyblue);

@@ -28,8 +28,7 @@ void Game::update() {
 	}
 }
 void Game::draw() {
-	static Font fontS(40);
-	static Font fontL(10);
+	static Font fontS(30);
 
 	switch (state) {
 	case State::START:
@@ -38,7 +37,7 @@ void Game::draw() {
 		break;
 	case State::GAME:
 		map_draw();
-			break;
+		break;
 	case State::CLEAR:
 		break;
 	}
@@ -47,19 +46,22 @@ void Game::check() {
 
 }
 void Game::map_draw() {
+	static Font fontS(30);
 	Line_x = 4;
 	Line_y = 76;
 	rect_x = 0;
 	rect_y = 0;
-
+	//ÉQÅ[ÉÄâÊñ è„ïî
+	Rect(0, 0, 408, 72).draw(Palette::Black);
+	fontS(L"Reset").draw(250, 0, Palette::Skyblue);
 	//ÉQÅ[ÉÄâÊñ 
-	for (int j = 1; j <= 8;j++) {
-		Rect(8 + rect_x, 80, 42, 42).draw(Palette::Blue);
-		rect_x += 48;
-		for (int k = 1; k <= 8; k++) {
-			Rect(8, 80 + rect_y, 42, 42).draw(Palette::Blue);
-			rect_y += 48;
+	for (int n = 1; n <= 8;n++) {
+		for (int j = 1; j <= 8; j++) {
+			Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::Blue);
+			rect_x += 50;
 		}
+		rect_x = 0;
+		rect_y += 50;
 	}
 	for (int i = 1; i <= 9; i++) {
 		Line(0, Line_y, 520, Line_y).draw(8, Palette::Skyblue);

@@ -59,18 +59,18 @@ void Game::check(int n, int j){
 	const bool r = rect.leftPressed;
 	if (r == 1){
 		switch (col[n][j]) {
-		case 0:
-			col[n][j] = 1;
-			break;
-		case 3:
+		case 1:
 			col[n][j] = 2;
+			break;
+		case 4:
+			col[n][j] = 3;
 			break;
 		}
 	}
 }
 void Game::map_draw() {
 	static Font fontS(30);
-	static Image image(L"Example/Bomb.jpeg");
+	static Image image(L"Example/Bomb.png");
 	static Texture texture(image);
 	int Line_x = 4;
 	int Line_y = 76;
@@ -85,17 +85,14 @@ void Game::map_draw() {
 			//Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::Blue);
 			check(n,j);
 			switch (col[n][j]) {
-			case 0:
-				Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::Blue);
-				break;
 			case 1:
-				Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::White);
+				Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::Blue);
 				break;
 			case 2:
-				texture.draw(8 + rect_x, 80 + rect_y);
+				Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::White);
 				break;
 			case 3:
-				Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::Blue);
+				texture.draw(8 + rect_x, 80 + rect_y);
 				break;
 			}
 			rect_x += 50;
@@ -116,6 +113,6 @@ void Game::deploy_bomb() {
 		for (int j = 0; j < 8;j++) {
 			before = (Random(0, 7));
 			after = (Random(0, 7));
-			col[before][after] = 3;
+			col[before][after] = 4;
 		}
 }

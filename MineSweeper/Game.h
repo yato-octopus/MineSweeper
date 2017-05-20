@@ -17,13 +17,12 @@ public:
 	void map_draw();
 	void game_clear();
 	void game_over();
+	void deploy_bomb();
 
 private:
 	State state;
-	int Line_y;
-	int Line_x;
 	int rect_y;
 	int rect_x;
-	int col[8][8];
+	int col[8][8] = { 0 };
 };
 

@@ -29,7 +29,6 @@ void Game::update() {
 	case State::END:
 		if (Input::KeySpace.clicked) {
 			state = State::START;
-			//start();
 		}
 	}
 }
@@ -52,22 +51,30 @@ void Game::draw() {
 		break;
 	}
 }
-void Game::game_count(){
+void Game::game_end() {
+	if (sum[0] == 0) {
+		state = CLEAR;
+	}
+	if (sum[3] == 0) {
+		state = END;
+	}
+}
+void Game::game_system(){
 	//‚»‚ê‚¼‚ê‚Ìó‘Ô‚ÌŒÂ”‚ğƒJƒEƒ“ƒg
 	for (int n = 0; n < 8; n++) {
 		for (int j = 0; j < 8; j++) {
 			switch (col[n][j]) {
 			case 0:
-				sum[0]++;
+				sum[col[n][j]]++;
 				break;
 			case 1:
-				sum[1]++;
+				sum[col[n][j]]++;
 				break;
 			case 2:
-				sum[2]++;
+				sum[col[n][j]]++;
 				break;
 			case 3:
-				sum[3]++;
+				sum[col[n][j]]++;
 				break;
 			}
 		}
@@ -84,13 +91,9 @@ void Game::check(int n, int j){
 		switch (col[n][j]) {
 		case 0:
 			col[n][j] = 1;
-			if (sum[0] > 0) {
-				sum[0] = sum[0] - 1;
-			}
 			break;
 		case 3:
 			col[n][j] = 2;
-			state = END;
 			break;
 		}
 	}
@@ -147,10 +150,4 @@ void Game::deploy_bomb() {
 			after = (Random(0, 7));
 			col[before][after] = 3;
 		}
-		game_count();
-}
-void Game::game_end() {
-	if (sum[0] == 0) {
-		state = CLEAR;
-	}
 }

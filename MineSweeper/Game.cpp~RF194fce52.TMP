@@ -29,7 +29,6 @@ void Game::update() {
 	case State::END:
 		if (Input::KeySpace.clicked) {
 			state = State::START;
-			//start();
 		}
 	}
 }
@@ -58,16 +57,16 @@ void Game::game_count(){
 		for (int j = 0; j < 8; j++) {
 			switch (col[n][j]) {
 			case 0:
-				sum[0]++;
+				sum[col[n][j]]++;
 				break;
 			case 1:
-				sum[1]++;
+				sum[col[n][j]]++;
 				break;
 			case 2:
-				sum[2]++;
+				sum[col[n][j]]++;
 				break;
 			case 3:
-				sum[3]++;
+				sum[col[n][j]]++;
 				break;
 			}
 		}
@@ -85,7 +84,7 @@ void Game::check(int n, int j){
 		case 0:
 			col[n][j] = 1;
 			if (sum[0] > 0) {
-				sum[0] = sum[0] - 1;
+				sum[0]--;
 			}
 			break;
 		case 3:
@@ -146,11 +145,12 @@ void Game::deploy_bomb() {
 			before = (Random(0, 7));
 			after = (Random(0, 7));
 			col[before][after] = 3;
+			game_count();
 		}
-		game_count();
 }
 void Game::game_end() {
 	if (sum[0] == 0) {
 		state = CLEAR;
+		
 	}
 }

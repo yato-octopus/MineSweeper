@@ -25,6 +25,7 @@ private:
 	int rect_y;
 	int rect_x;
 	int sum[4] = { 0 };
-	int col[8][8] = { 0 };
+	int col[10][10] = { 0 };
+	int bomb_count[10][10] = { 0 };
 };
 

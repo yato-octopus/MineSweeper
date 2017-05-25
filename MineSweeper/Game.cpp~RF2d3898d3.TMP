@@ -45,7 +45,7 @@ void Game::draw() {
 		map_draw();
 		break;
 	case State::CLEAR:
-   		fontS(L"げーむくりあー").drawCenter(200,Palette::Yellow);
+		fontS(L"げーむくりあー").drawCenter(200,Palette::Yellow);
 		break;
 	case State::END:
 		fontS(L"げーむおーばー").drawCenter(200, Palette::Yellow);
@@ -53,23 +53,9 @@ void Game::draw() {
 	}
 }
 void Game::game_count(){
-	int hoge[4] = { 1,0,-1,0 };
-	int huga[4] = { 0,1,0,-1 };
-	int piyo[4] = { -1,-1,1,1 };
-	int fooo[4] = { -1,1,-1,1 };
-
-	for (int n = 1; n <= 8; n++) {
-		for (int j = 1; j <= 8; j++) {
-			//八方向の爆弾の個数をカウント
-			for (int i = 0; i < 4; i++) {
-				if (col[n + hoge[i]][j + huga[i]] == 3) {
-					bomb_count[n][j] += 1;
-				}
-				if (col[n + piyo[i]][j + fooo[i]] == 3) {
-					bomb_count[n][j] += 1;
-				}
-			}
-			//それぞれの状態の個数をカウント
+	//それぞれの状態の個数をカウント
+	for (int n = 0; n < 8; n++) {
+		for (int j = 0; j < 8; j++) {
 			switch (col[n][j]) {
 			case 0:
 				sum[0]++;
@@ -93,7 +79,11 @@ void Game::input() {
 void Game::check(int n, int j){
 	const Rect rect(8 + rect_x, 80 + rect_y, 42, 42);
 	const bool r = rect.leftPressed;
-
+	// bomb_count = 0;
+	int hoge[4] = { 1,0,-1,0 };
+	int huga[4] = { 0,1.0,-1 };
+	int piyo[4] = { -1,-1,1,1 };
+	int fooo[4] = { -1,1,-1,1 };
 	//ループで表示した正方形のあたり判定
 	if (r == 1){
 		switch (col[n][j]) {
@@ -102,6 +92,17 @@ void Game::check(int n, int j){
 			if (sum[0] > 0) {
 				sum[0] = sum[0] - 1;
 			}
+			//周りの八マスを比較して数字をカウント
+			for (int i = 0; i < 4; i++) {
+				if (col[n + hoge[i]][j + huga[i]] == 3||
+					col[n + hoge[i]][j + huga[i]] == 2) {
+					bomb_count[n][j] += 1;
+				}
+				if (col[n + piyo[i]][j + fooo[i]] == 3||
+					col[n + piyo[i]][j + fooo[i]] == 2) {
+					bomb_count[n][j] += 1;
+				}
+			}
 			break;
 		case 3:
 			col[n][j] = 2;
@@ -109,8 +110,6 @@ void Game::check(int n, int j){
 			break;
 		}
 	}
-
-
 }
 void Game::map_draw() {
 	static Font fontS(30);
@@ -125,8 +124,8 @@ void Game::map_draw() {
 	Rect(0, 0, 408, 72).draw(Palette::Black);
 	fontS(L"Reset").draw(250, 0, Palette::Skyblue);
 	//ゲーム画面
-	for (int n = 1; n <= 8;n++) {
-		for (int j = 1; j <= 8; j++) {
+	for (int n = 0; n < 8;n++) {
+		for (int j = 0; j < 8; j++) {
 			check(n,j);
 			/*case0:爆弾無し
 			  case1:爆弾無し(空け)
@@ -137,8 +136,11 @@ void Game::map_draw() {
 					Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::Blue);
 				break;
 			case 1:
-			    if (bomb_count[n][j] >=0) {
-					font(L"", bomb_count[n][j]).draw(8 + rect_x, 80 + rect_y);
+				if (bomb_count[n][j] == 0) {
+					Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::White);
+				}
+				else if (bomb_count[n][j] >0) {
+					font(L"", bomb_count[n][j]).draw(8 + rect_x, 80 + rect_y, Palette::Pink);
 				}
 				break;
 			case 2:
@@ -152,8 +154,7 @@ void Game::map_draw() {
 		}
 		rect_x = 0;
 		rect_y += 50;
-   	}
-	//ゲームライン
+	}
 	for (int i = 1; i <= 9; i++) {
 		Line(0, Line_y, 520, Line_y).draw(8, Palette::Skyblue);
 		Line_y += 50;
@@ -168,11 +169,10 @@ void Game::game_end() {
 }
 void Game::deploy_bomb() {
 	int before, after;
-
 	for (int j = 0; j < 8; j++) {
-		before = (Random(1, 8));
-		after = (Random(1, 8));
+		before = (Random(0, 7));
+		after = (Random(0, 7));
 		col[before][after] = 3;
+		game_count();	
 	}
-	game_count();
 }

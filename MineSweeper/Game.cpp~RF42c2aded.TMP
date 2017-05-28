@@ -6,7 +6,7 @@ Game::Game() {
 }
 void Game::start() {
 	state = State::START;
-	deploy_bomb();
+	//deploy_bomb();
 }
 void Game::update() {
 	switch (state) {
@@ -22,14 +22,13 @@ void Game::update() {
 		break;
 	case State::CLEAR:
 		if (Input::KeySpace.clicked) {
-			game_end();
-			start();
+			state = State::START;
 		}
 		break;
 	case State::END:
 		if (Input::KeySpace.clicked) {
-			game_end();
-			start();
+			state = State::START;
+			//start();
 		}
 	}
 }
@@ -122,9 +121,6 @@ void Game::check(int n, int j){
 	const Rect rect(8 + rect_x, 80 + rect_y, 42, 42);
 	const bool right = rect.rightPressed;
 	const bool left = rect.leftPressed;
-	if (sum[0] == 0) {
-		state = CLEAR;
-	}
 	//ループで表示した正方形のあたり判定
 	if (right) {
 
@@ -163,15 +159,10 @@ void Game::map_draw() {
 			  case3:爆弾あり*/
 			switch (col[n][j]) {
 			case 0:
-				Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::Blue);
+					Rect(8 + rect_x, 80 + rect_y, 42, 42).draw(Palette::Blue);
 				break;
 			case 1:
-				if (bomb_count[n][j] == 0) {
-					font(L"").draw(8 + rect_x, 80 + rect_y);
-				}
-				else {
-					font(L" ", bomb_count[n][j]).draw(8 + rect_x, 80 + rect_y);
-				}
+					font(L"u", bomb_count[n][j]).draw(8 + rect_x, 80 + rect_y);
 				break;
 			case 2:
 				texture.draw(8 + rect_x, 80 + rect_y);
@@ -194,6 +185,7 @@ void Game::map_draw() {
 	}
 }
 void Game::game_end() {
+	if (sum[0] == 0) {
 		for (int i = 0; i < 10;i++) {
 			for (int j = 0; j < 10;j++) {
 				col[i][j] = 0;
@@ -204,7 +196,9 @@ void Game::game_end() {
 		for (int k = 0; k < 4; k++) {
 			sum[k] = 0;
 		}
+		state = CLEAR;
 	}
+}
 void Game::deploy_bomb() {
 	int before, after;
 

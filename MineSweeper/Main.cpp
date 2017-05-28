@@ -9,6 +9,5 @@ void Main(){
 	while (System::Update()) {
 		game.draw();
 		game.update();
-		game.game_end();
 	}
 }

@@ -13,7 +13,7 @@ public:
 	void start();
 	void update();
 	void draw();
-	void input();
+	void open(int, int);
 	void check(int,int);
 	void map_draw();
 	void game_end();

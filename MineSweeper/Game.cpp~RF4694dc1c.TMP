@@ -130,13 +130,12 @@ void Game::check(int n, int j) {
 	if (right == 1&&flag[n][j] == 1) {
 	flag[n][j] = 0;
 	}*/
-
-	if (left == 1) {
+	if (left) {
 		if (hoge == 0) {
 			while (1) {
 				game_end();
 				deploy_bomb();
-				if (col[n][j] == 0 && bomb_count[n][j] == 0) {
+				if (bomb_count[n][j] == 0) {
 					break;
 				}
 			}
@@ -214,25 +213,20 @@ void Game::game_end() {
 		for (int j = 0; j < 10; j++) {
 			col[i][j] = 0;
 			bomb_count[i][j] = 0;
+
 		}
 	}
 	for (int k = 0; k < 4; k++) {
 		sum[k] = 0;
 	}
-	hoge = 0;
 }
 void Game::deploy_bomb() {
 	int before, after;
-	while(1){
-		for (int j = 0; j < deploy_bombs; j++) {
-			before = (Random(1, 8));
-			after = (Random(1, 8));
-			col[before][after] = 3;
-		}
-		game_count();
-		if (deploy_bombs == sum[3]) {
-			break;
-		}
-		game_end();
+
+	for (int j = 0; j < 8; j++) {
+		before = (Random(1, 8));
+		after = (Random(1, 8));
+		col[before][after] = 3;
 	}
+	game_count();
 }

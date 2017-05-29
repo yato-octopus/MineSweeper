@@ -27,5 +27,7 @@ private:
 	int sum[4] = { 0 };
 	int col[10][10] = { 0 };
 	int bomb_count[10][10] = { 0 };
+	int flag[10][10] = { 0 };
+	int hoge = 0;
+	int deploy_bombs = 8;
 };
-
